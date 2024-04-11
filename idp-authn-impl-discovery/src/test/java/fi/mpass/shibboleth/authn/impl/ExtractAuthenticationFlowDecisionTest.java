@@ -29,11 +29,13 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import fi.mpass.shibboleth.authn.impl.ExtractAuthenticationFlowDecision;
+import jakarta.servlet.http.HttpServletRequest;
 import net.shibboleth.idp.authn.AuthnEventIds;
 import net.shibboleth.idp.authn.context.AuthenticationContext;
-import net.shibboleth.idp.authn.impl.BaseAuthenticationContextTest;
-import net.shibboleth.idp.profile.ActionTestingSupport;
+import net.shibboleth.idp.authn.impl.testing.BaseAuthenticationContextTest;
+import net.shibboleth.idp.profile.testing.ActionTestingSupport;
+import net.shibboleth.shared.component.ComponentInitializationException;
+import net.shibboleth.shared.primitive.NonnullSupplier;
 
 /**
  * Unit tests for {@link ExtractAuthenticationFlowDecision}.
@@ -55,9 +57,10 @@ public class ExtractAuthenticationFlowDecisionTest extends BaseAuthenticationCon
     /** The authentication authority decision. */
     private String authnAuthorityDecision;
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc} 
+     * @throws ComponentInitializationException */
     @BeforeMethod
-    public void setUp() throws Exception {
+    public void setUp() throws ComponentInitializationException {
         super.setUp();
         authnFlowField = "mockAuthnFlowField";
         authnFlowDecision = "mockDecision";
@@ -67,14 +70,32 @@ public class ExtractAuthenticationFlowDecisionTest extends BaseAuthenticationCon
         action = new ExtractAuthenticationFlowDecision();
         action.setAuthnFlowFieldName(authnFlowField);
         action.setSelectedAuthorityFieldName(authnAuthorityField);
-        action.setHttpServletRequest(new MockHttpServletRequest());
+        final MockHttpServletRequest httpServletRequest = new MockHttpServletRequest();
+
+        action.setHttpServletRequestSupplier(new NonnullSupplier<HttpServletRequest>() {
+
+            @Override
+            public MockHttpServletRequest get() {
+                return httpServletRequest;
+            }
+            
+        });
     }
 
     /**
      * Runs the action without {@link HttpServletRequest}.
+     * @throws ComponentInitializationException 
      */
-    @Test public void testMissingServlet() throws Exception {
-        action.setHttpServletRequest(null);
+    @Test public void testMissingServlet() throws ComponentInitializationException  {
+        //action.setHttpServletRequest(null);
+        action.setHttpServletRequestSupplier(new NonnullSupplier<HttpServletRequest>() {
+
+            @Override
+            public MockHttpServletRequest get() {
+                return null;
+            }
+            
+        });
         action.initialize();
         final Event event = action.execute(src);
         ActionTestingSupport.assertEvent(event, AuthnEventIds.REQUEST_UNSUPPORTED);
@@ -82,9 +103,10 @@ public class ExtractAuthenticationFlowDecisionTest extends BaseAuthenticationCon
     
     /**
      * Runs the action with invalid input.
+     * @throws ComponentInitializationException 
      */
     @Test
-    public void testNoDecision() throws Exception {
+    public void testNoDecision() throws ComponentInitializationException   {
         action.initialize();
         final Event event = action.execute(src);
         ActionTestingSupport.assertEvent(event, AuthnEventIds.REQUEST_UNSUPPORTED);
@@ -94,7 +116,7 @@ public class ExtractAuthenticationFlowDecisionTest extends BaseAuthenticationCon
      * Runs the action with valid input without authority.
      */
     @Test
-    public void testValidNoAuthority() throws Exception {
+    public void testValidNoAuthority() throws ComponentInitializationException {
         action.initialize();
         ((MockHttpServletRequest) action.getHttpServletRequest()).addParameter(authnFlowField, authnFlowDecision);
         final Event event = action.execute(src);
@@ -109,7 +131,7 @@ public class ExtractAuthenticationFlowDecisionTest extends BaseAuthenticationCon
      * Runs the action with valid input with authority.
      */
     @Test
-    public void testValidWithAuthority() throws Exception {
+    public void testValidWithAuthority() throws ComponentInitializationException {
         action.initialize();
         ((MockHttpServletRequest) action.getHttpServletRequest()).addParameter(authnFlowField, authnFlowDecision);
         ((MockHttpServletRequest) action.getHttpServletRequest()).addParameter(authnAuthorityField, authnAuthorityDecision);

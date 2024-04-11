@@ -30,7 +30,7 @@ import javax.annotation.Nonnull;
 
 import org.opensaml.messaging.context.BaseContext;
 
-import net.shibboleth.utilities.java.support.collection.Pair;
+import net.shibboleth.shared.collection.Pair;
 
 /**
  * This class carries information for the authentication method discovery about the potential authentication flows.

@@ -24,16 +24,16 @@ package fi.mpass.shibboleth.authn.impl;
 
 import javax.annotation.Nonnull;
 import javax.security.auth.Subject;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import net.shibboleth.idp.authn.AbstractExtractionAction;
 import net.shibboleth.idp.authn.AuthenticationResult;
 import net.shibboleth.idp.authn.AuthnEventIds;
 import net.shibboleth.idp.authn.context.AuthenticationContext;
-import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
-import net.shibboleth.utilities.java.support.component.ComponentSupport;
-import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.primitive.StringSupport;
+import net.shibboleth.shared.annotation.constraint.NotEmpty;
+import net.shibboleth.shared.component.ComponentSupport;
+import net.shibboleth.shared.logic.Constraint;
+import net.shibboleth.shared.primitive.StringSupport;
 
 import org.opensaml.profile.action.ActionSupport;
 import org.opensaml.profile.context.ProfileRequestContext;

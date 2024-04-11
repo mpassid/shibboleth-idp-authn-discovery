@@ -41,11 +41,11 @@ import fi.mpass.shibboleth.authn.AuthenticationDiscoveryContext;
 import net.shibboleth.idp.authn.AbstractExtractionAction;
 import net.shibboleth.idp.authn.AuthenticationFlowDescriptor;
 import net.shibboleth.idp.authn.context.AuthenticationContext;
-import net.shibboleth.utilities.java.support.collection.Pair;
-import net.shibboleth.utilities.java.support.component.ComponentInitializationException;
-import net.shibboleth.utilities.java.support.component.ComponentSupport;
-import net.shibboleth.utilities.java.support.logic.Constraint;
-import net.shibboleth.utilities.java.support.primitive.StringSupport;
+import net.shibboleth.shared.collection.Pair;
+import net.shibboleth.shared.component.ComponentInitializationException;
+import net.shibboleth.shared.component.ComponentSupport;
+import net.shibboleth.shared.logic.Constraint;
+import net.shibboleth.shared.primitive.StringSupport;
 
 /**
  * This actions populates {@link AuthenticationDiscoveryContext} and attaches it as a subcontext of
