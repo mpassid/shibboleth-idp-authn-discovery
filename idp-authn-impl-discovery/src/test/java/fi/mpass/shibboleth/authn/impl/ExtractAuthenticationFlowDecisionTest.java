@@ -121,7 +121,7 @@ public class ExtractAuthenticationFlowDecisionTest extends BaseAuthenticationCon
         ((MockHttpServletRequest) action.getHttpServletRequest()).addParameter(authnFlowField, authnFlowDecision);
         final Event event = action.execute(src);
         ActionTestingSupport.assertEvent(event, AuthnEventIds.RESELECT_FLOW);
-        AuthenticationContext authCtx = prc.getSubcontext(AuthenticationContext.class, false);
+        AuthenticationContext authCtx = prc.getSubcontext(AuthenticationContext.class);
         Assert.assertNotNull(authCtx);
         Assert.assertEquals(authCtx.getSignaledFlowId(), authnFlowDecision);
         Assert.assertNull(authCtx.getAuthenticatingAuthority());
@@ -137,7 +137,7 @@ public class ExtractAuthenticationFlowDecisionTest extends BaseAuthenticationCon
         ((MockHttpServletRequest) action.getHttpServletRequest()).addParameter(authnAuthorityField, authnAuthorityDecision);
         final Event event = action.execute(src);
         ActionTestingSupport.assertEvent(event, AuthnEventIds.RESELECT_FLOW);
-        AuthenticationContext authCtx = prc.getSubcontext(AuthenticationContext.class, false);
+        AuthenticationContext authCtx = prc.getSubcontext(AuthenticationContext.class);
         Assert.assertNotNull(authCtx);
         Assert.assertEquals(authCtx.getSignaledFlowId(), authnFlowDecision);
         Assert.assertEquals(authCtx.getAuthenticatingAuthority(), authnAuthorityDecision);
