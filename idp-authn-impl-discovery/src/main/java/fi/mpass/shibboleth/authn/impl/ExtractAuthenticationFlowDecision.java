@@ -31,7 +31,6 @@ import net.shibboleth.idp.authn.AuthenticationResult;
 import net.shibboleth.idp.authn.AuthnEventIds;
 import net.shibboleth.idp.authn.context.AuthenticationContext;
 import net.shibboleth.shared.annotation.constraint.NotEmpty;
-import net.shibboleth.shared.component.ComponentSupport;
 import net.shibboleth.shared.logic.Constraint;
 import net.shibboleth.shared.primitive.StringSupport;
 
@@ -70,7 +69,7 @@ public class ExtractAuthenticationFlowDecision extends AbstractExtractionAction 
      * @param fieldName the authnFlow parameter name
      */
     public void setAuthnFlowFieldName(@Nonnull @NotEmpty final String fieldName) {
-        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        ifInitializedThrowUnmodifiabledComponentException();
         
         authnFlowFieldName = Constraint.isNotNull(
                 StringSupport.trimOrNull(fieldName), "AuthnFlow field name cannot be null or empty.");
@@ -81,7 +80,7 @@ public class ExtractAuthenticationFlowDecision extends AbstractExtractionAction 
      * @param fieldName What to set.
      */
     public void setSelectedAuthorityFieldName(final String fieldName) {
-        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        ifInitializedThrowUnmodifiabledComponentException();
         
         selectedAuthorityFieldName = fieldName;
     }

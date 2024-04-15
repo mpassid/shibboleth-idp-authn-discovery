@@ -43,7 +43,6 @@ import net.shibboleth.idp.authn.AuthenticationFlowDescriptor;
 import net.shibboleth.idp.authn.context.AuthenticationContext;
 import net.shibboleth.shared.collection.Pair;
 import net.shibboleth.shared.component.ComponentInitializationException;
-import net.shibboleth.shared.component.ComponentSupport;
 import net.shibboleth.shared.logic.Constraint;
 import net.shibboleth.shared.primitive.StringSupport;
 
@@ -81,12 +80,12 @@ public class PopulateDiscoveryContext extends AbstractExtractionAction {
      * @param flowIds What to set.
      */
     public void setIgnoredFlows(final List<String> flowIds) {
-        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        ifInitializedThrowUnmodifiabledComponentException();
         ignoredFlows = Constraint.isNotNull(flowIds, "List of ignored flow ids cannot be null");
     }
     
     public void setAuthorityProperties(final String propertiesFile) {
-        ComponentSupport.ifInitializedThrowUnmodifiabledComponentException(this);
+        ifInitializedThrowUnmodifiabledComponentException();
         if (StringSupport.trimOrNull(propertiesFile) == null) {
             log.debug("{} No authority properties configured", getLogPrefix());
         } else {
